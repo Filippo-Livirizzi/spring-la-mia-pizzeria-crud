@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dettagli Pizza</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Dettagli Pizza</h1>
+        <div th:if="${pizza != null}">
+            <h2 th:text="${pizza.nome}"></h2>
+            <p th:text="${pizza.descrizione}"></p>
+            <img th:src="${pizza.fotoUrl}" alt="Foto Pizza" style="width: 200px;">
+            <p>Prezzo: <span th:text="${pizza.prezzo}"></span> €</p>
+        </div>
+        <div th:if="${pizza == null}">
+            <p>Pizza non trovata.</p>
+        </div>
+        <a href="/" class="btn btn-primary">Torna all'elenco</a>
+    </div>
+</body>
+</html>
