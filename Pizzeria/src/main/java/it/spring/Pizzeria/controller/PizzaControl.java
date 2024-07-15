@@ -37,17 +37,14 @@ public class PizzaControl {
 		return "/menu/index";
 	}
 	
-	   @GetMapping("/dettaglio/{id}")
-	   public String dettaglio (@PathVariable ("id") Integer id, Model model) {
-		   
-		   model.addAttribute("dettaglio", repository.getReferenceById(id));
-		   
-		   return "/menu/dettaglio";
-	   }
 	   
-
-	   
-	   
+		@GetMapping("/show/{id}")
+		public String show(@PathVariable("id") Integer menuid, Model model) {
+			
+			model.addAttribute("menu", repository.findById(menuid).get());
+			
+			return "/menu/show";
+		}
 
 }
 	
