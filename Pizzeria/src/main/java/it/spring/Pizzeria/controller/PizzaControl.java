@@ -18,63 +18,77 @@ import jakarta.validation.Valid;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
-
-
 @Controller
-@RequestMapping ("/menu")
+@RequestMapping("/menu")
 public class PizzaControl {
-	
+
 	@Autowired
 	private PizzaRepository repository;
-	
+
 	@GetMapping
-	public String index (Model model) {
+	public String index(Model model) {
 
 		List<Menu> pizza = new ArrayList<>();
-				
+
 		pizza = repository.findAll();
-		
+
 		model.addAttribute("menu", pizza);
-		
+
 		return "/menu/index";
 	}
-	
-	   
-		@GetMapping("/show/{id}")
-		public String show(@PathVariable("id") Integer menuid, Model model) {
-			
-			model.addAttribute("menu", repository.findById(menuid).get());
-			
-			return "/menu/show";
-		}
-		
-		@GetMapping("/edit/{id}")
-		public String edit(@PathVariable("id") Integer menuid, Model model) {
-			
-			model.addAttribute("menu", repository.findById(menuid).get());
-			
+
+	@GetMapping("/show/{id}")
+	public String show(@PathVariable("id") Integer menuid, Model model) {
+
+		model.addAttribute("menu", repository.findById(menuid).get());
+
+		return "/menu/show";
+	}
+
+	@GetMapping("/edit/{id}")
+	public String edit(@PathVariable("id") Integer menuid, Model model) {
+
+		model.addAttribute("menu", repository.findById(menuid).get());
+
+		return "/menu/edit";
+	}
+
+	@PostMapping("/edit/{id}")
+	public String update(@Valid @ModelAttribute("menu") Menu pizzaForm, BindingResult bindingResult, Model model) {
+
+		if (bindingResult.hasErrors()) {
 			return "/menu/edit";
 		}
-		
-		@PostMapping("/edit/{id}")
-		public String update(@Valid @ModelAttribute("menu") Menu pizzaForm, BindingResult bindingResult, Model model ){
-			
-			if(bindingResult.hasErrors()) {
-				return "/menu/edit";
-			}
-			
-			repository.save(pizzaForm);
-			
-			return "redirect:/menu";
+
+		repository.save(pizzaForm);
+
+		return "redirect:/menu";
+	}
+
+	@PostMapping("/delete/{id}")
+	public String delete(@PathVariable("id") Integer id) {
+		repository.deleteById(id);
+		return "redirect:/menu";
+	}
+
+	@GetMapping("/create")
+	public String create(Model model) {
+		model.addAttribute("menu", new Menu());
+
+
+		return "/menu/create";
+	}
+
+	@PostMapping("/create")
+	public String store(@Valid @ModelAttribute("menu") Menu formMenu, BindingResult bindingResult, Model model) {
+
+		if (bindingResult.hasErrors()) {
+			return "/menu/create";
 		}
-		
-		@PostMapping("/delete/{id}")
-		public String delete (@PathVariable("id") Integer id) {
-			repository.deleteById(id);
-			return "redirect:/menu";
-		}
+
+		repository.save(formMenu);
+
+		return "redirect:/menu";
+	}
+
 }
-	
-
-
-
