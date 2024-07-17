@@ -10,18 +10,6 @@
 		integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 
-
-
-<nav class="navbar bg-body-tertiary">
-	<div class="container-fluid">
-		<a class="navbar-brand">PizzaBool</a>
-		<form class="d-flex" role="search">
-			<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-			<button class="btn btn-outline-success" type="submit">Search</button>
-		</form>
-	</div>
-</nav>
-
 <h1 class="m-3">Menu</h1>
 
 <div class="container">
@@ -46,12 +34,24 @@
 						<img th:src="@{${pizza.foto}}">
 					</td>
 					<td th:text="${pizza.prezzo} + '€'"></td>
+
 					<td> <a th:href="@{|/menu/show/${pizza.id}|}" class="btn btn-info" type="button">Dettagli</a></td>
+					<td> <a th:href="@{|/menu/edit/${pizza.id}|}" class="btn btn-secondary">Modifica</a></td>
+					<td>
+						<form th:action="@{'/menu/delete/{id}'(id=${pizza.id})}" method="post">
+							<button class="btn btn-danger" type="submit" id="deleteButton">
+								<p class="bi bi-trash">delete</p>
+							</button>
+						</form>
+					</td>
+
 
 				</tr>
 
 			</tbody>
 		</table>
+
+		<div></div>
 	</div>
 	<div>
 		<h4 th:if="${menu.isEmpty()}"> Non ci sono pizze nel menu</h4>
